@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+	<style>
+		body {
+			background-color: gainsboro;
+		}
+		.feedback-class {
+			background-color:honeydew;
+			align-content: center;
+			margin-top: 5%;
+			margin-left: 5%;
+			margin-right: 5%;
+			margin-bottom: 5%;
+			padding: 5%;
+
+			border-radius: 5px;
+			border: 1px solid black;
+			box-shadow: 10px 10px 5px #aaaaaa;
+		}
+		input {
+			display: inline;
+			position: relative;
+		}
+		form > div {
+			padding: 5px;
+			position: relative;
+		}
+		.label {
+			width: 25%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			display: inline-block;
+			/* position: absolute; */
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+<div class="feedback-class">
+<form action="accept_feedback" method="POST" >
+	{% csrf_token %}
+	<h1>Feedback</h1>
+	<h5>Contact us via email: </h5>
+	<div>
+		<div class="label">
+			Name: 
+		</div>
+		<input type="text" name="feedback_name" id="name_id">
+	</div>
+	<div>
+		<div class="label">
+			Email: 
+		</div>
+		<input type="text" name="feedback_email" id="email_id">
+	</div> 
+	<div>
+		<div class="label"s>
+			Message:
+		</div>
+		<textarea name="feedback_text" id="feedback_text_id" cols="" rows="5" ></textarea>
+	</div>
+	<button>Send</button>
+</form>
+</div>
+{% endblock %}
