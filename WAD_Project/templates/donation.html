@@ -1,0 +1,127 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Donation
+    </title>
+ <link rel="icon" href="{% static 'Images/logo.jpeg' %}" type="image/gif" sizes="20x20">
+<style>
+
+.three {
+  list-style-type: none;
+  margin: 0;
+  padding: 20px;
+  overflow: hidden;
+  background-color:white;
+}
+.two {
+  float: right;
+}
+
+
+.one {
+  display: block;
+  color:black;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {color: white;
+  background-color:grey;
+}
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: black;
+  color: gray;
+}
+</style>
+</head>
+
+<body>
+
+
+<ul class="three">
+  <li class="two"><a class="one" href="/information/"><b>HELP</b></a></li>
+  <li class="two"><a class="one" href="/contactus/"><b>CONTACT</b></a></li>
+  <li class="two"><a class="one" href="/"><b>HOME</b></a></li>
+  <a  href="/"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="90" height="90"style="float: left !important ; "></a>
+  <h2 style="float: left !important; font-family:cursive;font-size:30px ">HELPING HAND</h2>
+  
+
+
+</ul>
+<center>
+<img src="{% static 'Images/donate.png' %}" height="500" width="800">
+<br><br>
+<h1><cite>We Really Appreciate Your Willingness to Donate...</cite></h1>
+
+<br><br>
+ <label for="district">Choose your District :  </label>
+  <select name="district" id="district">
+    <option value="Anantapur">Anantapur</option>
+    <option value="Kadapa">Kadapa</option>
+    <option value="Krishna">Krishna</option>
+    <option value="Chittoor">Chittoor</option>
+    <option value="Vizag">Vizag</option>
+    <option value="Kurnool">Kurnool</option>
+    <option value="Nellore">Nellore</option>
+    <option value="Guntur">Guntur</option>
+    <option value="Viziyanagaram">Viziyanagaram</option>
+    <option value="Prakasham">Prakasham</option>
+    <option value="East Godavari">East Godavari</option>
+    <option value="West Godavari">West Godavari</option>
+    <option value="Srikakulam">Srikakulam<option>
+  </select>
+
+  <br><br><br>
+
+  <label for="category">Select the Category :  </label>
+  <select name="category" id="category">
+  <option value="Books">Books</option>
+  <option value="Clothes">Clothes</option>
+  <option value="Household">Household</option>
+  <option value="Footwear">Footwear</option>
+  <option value="Food">Food</option>
+  <option value="Gadgets">Gadgets</option>
+  <option value="Sports items">Sports items</option>
+  <option value="Pets">Pets</option>
+  <option value="Furniture items">Furniture items</option>
+  </select>
+
+  <br><br><br>
+
+  <label for="image">Please Add the Photo :  </label>
+  <input type="file" name="image" id="image" accept="image/*" >
+
+  <br><br><br>
+
+  <label for="description">Please give Description of the Item :  </label>
+  <input type="text" id="description" name="description">  <br><br>
+  <label for="contact">Contact details : </label>
+  <input type="text" id="contact" name="contact">
+  <br><br><br>
+
+  <input type="submit" value="UPLOAD">
+<br><br><br><br><br><br><br><br><br><br><br>
+
+<footer>
+<a style="float:left !imporetant ;padding-right:50px;" href="https://www.instagram.com/altruistichelpinghand/" target="_blank"><img src="{% static 'Images/instagram.jpg' %}" width="50" height="50"></a> 
+
+<a style="float:left !imporetant ;padding-right:50px;" href="https://www.facebook.com/helpinghand.altruistic" target="_blank"><img src="{% static 'Images/facebook.jpg' %}" width="50" height="50"></a> 
+
+<a style="float:left !imporetant ;padding-right:50px;" href="https://twitter.com/Helping17266863" target="_blank"><img src="{% static 'Images/twitter.jpg' %}" width="50" height="50"></a> 
+
+<a style="float:left !imporetant ;padding-right:50px;" href="mailto:conatct.helpinghand@gmail.com" target="_blank"><img src="{% static 'Images/mail.jpg' %}" width="50" height="50"></a> 
+<hr>
+<p>&copy copyright 2021</p>
+</footer>
+
+
+</center>
+
+
+</body>
+</html>
