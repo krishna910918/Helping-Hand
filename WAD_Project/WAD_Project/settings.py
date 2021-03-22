@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'feedback_app',
+    'homepage',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+import os
+STATIC_ROOT = os.path.join(BASE_DIR,  'static')
 
 #common email id for wad project
 #all feedback emails are handled from here

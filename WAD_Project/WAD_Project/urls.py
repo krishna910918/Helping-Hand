@@ -19,5 +19,6 @@ from feedback_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('feedback_app.urls'))
+    path('', include('homepage.urls')),
+    path('feedback/',include('feedback_app.urls'))
 ]
