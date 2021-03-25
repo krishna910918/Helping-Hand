@@ -1,0 +1,36 @@
+{% load static%}
+
+<! DOCTYPE html>
+
+<html>
+
+
+<head>
+
+<title> SIGN-IN</title>
+<link rel="icon" href="{% static 'Images/logo.jpeg' %}" type="image/gif" sizes="20x20">
+
+<link rel="stylesheet"  href= "{% static 'Stylesheets/signup.css' %}" >
+
+</head>
+
+
+<body>
+
+<div class = 'sign-in-form'>
+
+ <img src = {% static 'Images/user-icon4.png' %} >
+    <h1> Sign in Now </h1>
+    <form action = 'signin' method = 'post'>
+    <input type="text" class = 'username' placeholder = 'Your Username'>
+        <input type = 'password' class = 'password' placeholder = 'Your Password'>
+        <button  type = 'button' class = 'signup-btn' onclick = 'window.open("/")'>Sign-in</button>
+    
+    </form>
+
+</div>
+
+</body>
+
+
+</html>

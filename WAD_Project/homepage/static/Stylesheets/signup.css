@@ -1,0 +1,91 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'verdana';
+    background-size: cover;
+    background-position: center;
+   background : url('/static/Images/backgroundpic2.jpeg') ;
+   background-repeat :round;
+}
+
+.sign-up-form {
+    width: 300px;
+    box-shadow: 0 03px 0rgba(0, 0, 0, 0.3);
+    background: white;
+    padding: 20px;
+    margin: 2% auto 0;
+    text-align: center;
+    
+    
+}
+
+.sign-in-form {
+    width: 300px;
+    box-shadow: 0 03px 0rgba(0, 0, 0, 0.3);
+    background: white;
+    padding: 20px;
+    margin: 5% auto 0;
+    text-align: center;
+    
+    
+}
+
+.sign-up-form h1 {
+    color: rgb(111, 0, 255);
+    margin-bottom: 45px;
+}
+
+.sign-in-form h1 {
+    color: rgb(111, 0, 255);
+    margin-bottom: 45px;
+}
+
+.username,
+.password,
+.email {
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid #999;
+    outline: none;
+}
+
+button {
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    margin: 10px 0;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.signup-btn {
+    background-color: rgb(111, 0, 255);
+}
+.googlesignin-btn
+{
+    background-color: purple;
+}
+a{
+    text-decoration : none;
+ }
+ hr{
+     margin-top: 20px;
+     width: 80%;
+ }
+ .or{
+    background : #fff;
+    width : 45px;
+    margin : -20px auto 10px;
+ }
+ img{
+     width: 70px;
+    
+
+ }

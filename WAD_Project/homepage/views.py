@@ -18,3 +18,9 @@ def receive(request):
 
 def information(request):
     return render(request, 'information.html')
+
+def signup(request):
+    return render(request,'signup.html')
+
+def signin(request):
+    return render(request,'signin.html')
