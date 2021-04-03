@@ -58,6 +58,9 @@ footer {
 <br><br>
 <h1><cite>We Really Appreciate Your Willingness to Donate...</cite></h1>
 
+
+<form action="" enctype="multipart/form-data" method="POST" style="display: {{form_display}};">
+  {% csrf_token %}
 <br><br>
  <label for="district">Choose your District :  </label>
   <select name="district" id="district">
@@ -73,7 +76,7 @@ footer {
     <option value="Prakasham">Prakasham</option>
     <option value="East Godavari">East Godavari</option>
     <option value="West Godavari">West Godavari</option>
-    <option value="Srikakulam">Srikakulam<option>
+    <option value="Srikakulam">Srikakulam</option>
   </select>
 
   <br><br><br>
@@ -99,22 +102,25 @@ footer {
   <br><br><br>
 
   <label for="description">Please give Description of the Item :  </label>
-  <input type="text" id="description" name="description">  <br><br>
+  <input type="text" id="description" name="description" placeholder="About the Item">  <br><br>
   <label for="contact">Contact details : </label>
-  <input type="text" id="contact" name="contact">
+  <input type="text" id="contact" name="contact" placeholder="mail / mobile">
   <br><br><br>
 
   <input type="submit" value="UPLOAD">
-<br><br><br><br><br><br><br><br><br><br><br>
+</form>
+<br><br>
+<h1 style="display: {{ status_display }} ; color:green ; border-style:double">UPLOADED SUCCESSFULLY ✔</h1>
+<br><br><br><br><br>
 
 <footer>
-<a style="float:left !imporetant ;padding-right:50px;" href="https://www.instagram.com/altruistichelpinghand/" target="_blank"><img src="{% static 'Images/instagram.jpg' %}" width="50" height="50"></a> 
+<a style="padding-right:50px;" href="https://www.instagram.com/altruistichelpinghand/" target="_blank"><img src="{% static 'Images/instagram.jpg' %}" width="50" height="50"></a> 
 
-<a style="float:left !imporetant ;padding-right:50px;" href="https://www.facebook.com/helpinghand.altruistic" target="_blank"><img src="{% static 'Images/facebook.jpg' %}" width="50" height="50"></a> 
+<a style="padding-right:50px;" href="https://www.facebook.com/helpinghand.altruistic" target="_blank"><img src="{% static 'Images/facebook.jpg' %}" width="50" height="50"></a> 
 
-<a style="float:left !imporetant ;padding-right:50px;" href="https://twitter.com/Helping17266863" target="_blank"><img src="{% static 'Images/twitter.jpg' %}" width="50" height="50"></a> 
+<a style="padding-right:50px;" href="https://twitter.com/Helping17266863" target="_blank"><img src="{% static 'Images/twitter.jpg' %}" width="50" height="50"></a> 
 
-<a style="float:left !imporetant ;padding-right:50px;" href="mailto:conatct.helpinghand@gmail.com" target="_blank"><img src="{% static 'Images/mail.jpg' %}" width="50" height="50"></a> 
+<a style="padding-right:50px;" href="mailto:conatct.helpinghand@gmail.com" target="_blank"><img src="{% static 'Images/mail.jpg' %}" width="50" height="50"></a> 
 <hr>
 <p>&copy copyright 2021</p>
 </footer>

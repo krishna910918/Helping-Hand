@@ -126,6 +126,9 @@ STATIC_URL = '/static/'
 import os
 STATIC_ROOT = os.path.join(BASE_DIR,  'static')
 
+MEDIA_URL = '/pics/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'pics')
+
 #common email id for wad project
 #all feedback emails are handled from here
 password = 'wad123456'

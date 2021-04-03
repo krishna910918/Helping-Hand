@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Donation
 
 # Create your views here.
 def homepage(request):
@@ -11,7 +12,32 @@ def contactus(request):
     return render(request, 'contactus.html')
 
 def donation(request):
-    return render(request, 'donation.html')
+    context={
+        'status_display':'none',
+        'form_display':'bolck',
+    }
+    if request.method == 'POST':
+        print(request.POST)
+        district = request.POST['district']
+        category = request.POST['category']
+        image = request.FILES['image']
+        description = request.POST['description']
+        contact = request.POST['contact']
+
+        donation = Donation()
+
+        donation.district=district
+        donation.category=category
+        donation.img=image
+        donation.desc=description
+        donation.cont=contact
+        donation.save()
+
+        context={
+            'status_display':'block',
+            'form_display':'none',
+        }
+    return render(request, 'donation.html',context)
 
 def receive(request):
     return render(request, 'receive.html')
