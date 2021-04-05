@@ -9,10 +9,8 @@ urlpatterns = [
     path ('contactus/', views.contactus,name = 'contactus'),
     path ('aboutus/', views.aboutus,name = 'aboutus'),
     path ('information/', views.information,name = 'information'),
-    path ('donation/', views.donation,name = 'donation'),
-    path ('receive/', views.receive,name = 'receive'),
-    path ('signup/',views.signup,name = 'signup'),
-    path ('signin/',views.signin,name = 'signin'),
+    path ('donation', views.donation,name = 'donation'),
+    path ('receive', views.receive,name = 'receive'),
     
 ]
 

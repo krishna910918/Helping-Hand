@@ -1,0 +1,43 @@
+{% load static%}
+
+<! DOCTYPE html>
+
+<html>
+
+
+<head>
+
+<title> SIGN-IN</title>
+<link rel="icon" href="{% static 'Images/logo.jpeg' %}" type="image/gif" sizes="20x20">
+
+<link rel="stylesheet"  href= "{% static 'Stylesheets/signup.css' %}" >
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+
+
+<script>alert('Login to the website to receive')</script>
+
+<body>
+
+<div class = 'sign-in-form'>
+
+ {% for m in messages %}
+                <h3 style = 'color : red'>{{m}}</h3>
+                {% endfor %}
+
+ <img src = {% static 'Images/user-icon4.png' %} >
+    <h1> Sign in Now </h1>
+    <form action = 'signinviarec' method = 'POST'>
+        {% csrf_token %}
+    <input type="text" class = 'username' name = 'u' placeholder = 'Your Username'>
+        <input type = 'password' class = 'password' name = 'p' placeholder = 'Your Password'>
+        <button  type = 'submit' class = 'signup-btn'  >Sign-in</button>
+        <p> Are You a new User? <a href = "signup"> Click Here</a></p>
+          
+    
+    </form>
+
+   
+
+</html>

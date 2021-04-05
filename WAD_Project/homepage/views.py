@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib import messages
+from django.contrib.auth.models import User,auth
 from .models import Donation
 
 # Create your views here.
@@ -14,7 +16,7 @@ def contactus(request):
 def donation(request):
     context={
         'status_display':'none',
-        'form_display':'bolck',
+        'form_display':'block',
     }
     if request.method == 'POST':
         print(request.POST)
@@ -37,16 +39,18 @@ def donation(request):
             'status_display':'block',
             'form_display':'none',
         }
-    return render(request, 'donation.html',context)
+    elif request.user.is_authenticated :
+        return render(request, 'donation.html',context)
+    else :
+        
+        return redirect('signinviadon')
 
 def receive(request):
-    return render(request, 'receive.html')
+    if request.user.is_authenticated:
+        return render(request, 'receive.html')
+    else :
+        return redirect('signinviarec')
 
 def information(request):
     return render(request, 'information.html')
 
-def signup(request):
-    return render(request,'signup.html')
-
-def signin(request):
-    return render(request,'signin.html')

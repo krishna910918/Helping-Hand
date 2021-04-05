@@ -42,6 +42,8 @@ footer {
 
 <body>
 
+{% if user.is_authenticated %}
+
 
 <ul class="three">
   <li class="two"><a class="one" href="/information/"><b>HELP</b></a></li>
@@ -54,7 +56,7 @@ footer {
 
 </ul>
 <center>
-<h1><cite>Our <strong>Helping Hand</strong> will help you....</cite></h1>
+<h1> <cite> {{user.first_name}} {{user.last_name}}, Our <strong>Helping Hand</strong> will help you....</cite></h1>
 
 <br><br><br>
 <label for="district">Select your District :  </label>
@@ -92,6 +94,13 @@ footer {
 <br><br><br>
 
 <input type="submit" value="Search">
+
+
+{% else %}
+<li >Login to the website to receive </li><br><br>
+<li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signinviarec"><b>LOGIN</b></a></li><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endif %}
 
 <br><br><br><br><br><br><br><br><br><br><br>
 

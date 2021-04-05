@@ -13,32 +13,44 @@
 
 </head>
 
+
+
 <body  >
 
-<div class = 'sign-up-form' >
+<div class = 'sign-up-form'  >
 
-        {% csrf_token %}
+      
+        
+                {% for m in messages %}
+                <h3 style = 'color : red'>{{m}}</h3>
+                {% endfor %}
+                
+        
+        
+        
         <img src = {% static 'Images/user-icon4.png' %}>
         <h1> Sign up Now </h1>
         <form action = 'signup' method = 'post'>
-        <input type="text" class = 'username' placeholder = 'Your Username'>
-        <input type = 'password' class = 'password' placeholder = 'Your Password'>
-        <input type = 'email' class = 'email' placeholder = 'Your Email'>
-        <p> <span> <input type = 'checkbox'></span>I agree to terms and conditions </p>
-        <button  type = 'button' class = 'signup-btn' >Sign-up</button>
+          {% csrf_token %}
+        <input type="text" class = 'username' name = 'u' placeholder = 'Your Username'>
+        <input type="text" class = 'username' name = 'f' placeholder = 'First Name'>
+        <input type="text" class = 'username' name = 'l' placeholder = 'Last Name'>
+        <input type = 'password' class = 'password' name = 'p1' placeholder = 'Your Password'>
+        <input type = 'password' class = 'password' name = 'p2' placeholder = 'Confirm Password'>
+        <input type = 'email' class = 'email' name = 'e' placeholder = 'Your Email'>
+        <p> <span> <input type = 'checkbox' style = "cursor : pointer"></span>I agree to terms and conditions </p>
+        <button  type = 'submit'  id = 'myBtn' class = 'signup-btn' name = 'c' >Sign-up</button>
         <hr>
         <p class = 'or'>OR</p>
         <button type = 'button' class = 'googlesignin-btn'>Login with gmail</button>
-        <p>Do you already have an account? </p>
-        <button  type = 'button' class = 'signup-btn' onclick = "window.open('/signin/'); return false;">Sign-in</button>
+
+      
         
         
         
         </form>
 
-</div>
-
-
+   
 
 
 
@@ -48,11 +60,8 @@
 
 </body>
 
-<script>
 
 
-
-</script>
 
 
 

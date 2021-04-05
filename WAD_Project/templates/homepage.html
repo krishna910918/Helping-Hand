@@ -161,18 +161,31 @@ footer {
 }
 </style>
 
+
 </head>
 
+{% if m is not none %}
+
+  <h1>{{m}}</h1>
+
+{% endif %}
+ <meta http-equiv="Refresh" content="10;url="homepage.html">  
 
 <body>
 
 
 <ul class="three">
-   {% if user.is_autenticated %}
-   <li class="two"><a style="background-color:skyblue;" class="one" href="feedback/"><b>LOGOUT</b></a></li>
+   {% if user.is_authenticated %}
+   
+   <li style="float: left !important; font-family:lucida handwriting;font-size:30px ;color : ;font-weight : bold"><center>Hello! {{user.first_name}}</center></li><br><br>
+   <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signout"><b>LOGOUT</b></a></li> 
    {% else %}
-   <li class="two"><a style="background-color:skyblue;" class="one" href="signup/"><b>LOGIN</b></a></li>
+   <br><br>
+   <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signin"><b>LOGIN</b></a></li>
+   
    {% endif %}
+
+    
 
   <li class="two"><a class="one" href="information/" target="_blank"><b>HELP</b></a></li>
   <li class="two"><a class="one" href="contactus/" target="_blank"><b>CONTACT</b></a></li>
@@ -286,8 +299,8 @@ wow.init();
 </div>
 <br>
 <div class="wow animate__pulse animate__infinite">
-<a style="padding:0 20px;margin-right:100px " target="_blank" id="five" href="donation/"><p><b>DONATE</b></p></a>
-<a style="padding:0 20px;margin-left:100px" target="_blank" id="five" href="receive/"><p><b>RECEIVE</b></p></a>
+<a style="padding:0 20px;margin-right:100px " target="_blank" id="five" href="donation"><p><b>DONATE</b></p></a>
+<a style="padding:0 20px;margin-left:100px" target="_blank" id="five" href="receive"><p><b>RECEIVE</b></p></a>
 </div>
 <br>
 <br>
