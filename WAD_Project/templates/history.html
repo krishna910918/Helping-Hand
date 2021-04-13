@@ -1,0 +1,246 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+       History
+    </title>
+ <link rel="icon" href="{% static 'Images/logo.jpeg' %}" type="image/gif" sizes="20x20">
+
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+  .destinations
+  {
+    width: 100%;
+    background: #FFFFFF;
+    padding-top: 115px;
+    padding-bottom: 116px;
+  }
+  .section_subtitle
+  {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #72728c;
+    line-height: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+  .section_title
+  {
+    color: #181818;
+    margin-top: 26px;
+  }
+  .destinations_row
+  {
+    margin-top: 99px;
+  }
+  .destination_image
+  {
+    width: 100%;
+  }
+  .destination_image img
+  {
+    max-width: 100%;
+  }
+  .spec_offer
+  {
+    position: absolute;
+    top: 15px;
+    left: 16px;
+    width: 118px;
+    height: 36px;
+    background: #181818;
+  }
+  .spec_offer a
+  {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+    line-height: 36px;
+    font-weight: 400;
+  }
+  .destinations_container
+  {
+    width: calc(100% + 30px);
+    left: -15px;
+  }
+  .destination
+  {
+    width: calc(100% / 3);
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 33px;
+  }
+  .destination_content
+  {
+  
+  }
+  .destination_title
+  {
+    margin-top: 15px;
+  }
+  .destination_title a
+  {
+    font-family: 'Oswald', sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: #181818;
+  }
+  .destination_subtitle
+  {
+    margin-top: -4px;
+  }
+  .destination_price
+  {
+    font-size: 16px;
+    font-weight: 700;
+    color: #181818;
+  }
+  
+
+.three {
+  list-style-type: none;
+  margin: 0;
+  padding: 20px;
+  overflow: hidden;
+  background-color:white;
+}
+.two {
+  float: right;
+}
+
+
+.one {
+  display: block;
+  color:black;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {color: white;
+  background-color:grey;
+}
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: black;
+  color: gray;
+}
+</style>
+</head>
+ <body>
+
+    {% if user.is_authenticated %}
+    <ul class="three">
+    <div style="margin-top: -30px !important;">
+    <a  href="/"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="90" height="90"style="float: left !important ; "></a>
+    <h2 style="float: left !important; font-family:cursive !important;font-size:30px !important;margin-top:30px; ">HELPING HAND</h2>
+    </div>
+    <div style="margin-top: 30px !important;">
+    <li class="two"><a style="background-color:skyblue;" class="one" href="{% url 'signout' %}"><b>LOGOUT</b></a></li>
+    <li class="two"><a class="one" href="/information/"><b>HELP</b></a></li>
+    <li class="two"><a class="one" href=""><b>CONTACT</b></a></li>
+    <li class="two"><a class="one" href="/"><b>HOME</b></a></li>
+    </div>
+    </ul>
+<h1>Your Contribution towards <cite>Helping Hand : </cite></h1>
+    <div class="destinations" id="destinations">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center"></div>
+				</div>
+				<div class="row destinations_row">
+					<div class="col">
+						<div class="destinations_container item_grid">
+
+							{% for obj in donation_obj %}
+							<div class="destination item">
+								<div class="destination_image">
+									<img src="/pics/{{obj.img}}" alt="">
+								</div>
+								<div class="destination_content">
+									<div class="destination_title"><b>Category </b>: {{obj.category}}</div>
+									<div class="destination_subtitle">
+										<p><b>Description </b>: {{obj.desc}}<br>
+								  	<b>Contact </b>: {{obj.cont}}<p>
+                  </div>
+								</div>
+              </div>
+
+							{% endfor %}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    
+    <hr>
+<h1>Received Items from <cite>Helping Hand : </cite></h1>
+    <div class="destinations" id="destinations">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center"></div>
+				</div>
+				<div class="row destinations_row">
+					<div class="col">
+						<div class="destinations_container item_grid_history">
+
+							{% for obj in receive_obj %}
+							<div class="destination item">
+								<div class="destination_image">
+									<img src="/pics/{{obj.img}}" alt="">
+								</div>
+								<div class="destination_content">
+								<div class="destination_title"><b>Donated by</b>: {{obj.donor_name}}</div>
+									<div class="destination_subtitle">
+										<p><b>Description </b>: {{obj.desc}}<br>
+								  	<b>Contact </b>: {{obj.cont}}<p>
+                  </div>
+								</div>
+              </div>
+
+							{% endfor %}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+   
+    {% else %}
+    <li >Login to the website to donate </li><br><br>
+     <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signinviadon"><b>LOGIN</b></a></li><br><br><br><br>
+    {% endif %}
+
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <footer>
+        <a style="padding-right:50px;" href="https://www.instagram.com/altruistichelpinghand/" target="_blank"><img src="{% static 'Images/instagram.jpg' %}" width="50" height="50"></a> 
+        
+        <a style="padding-right:50px;" href="https://www.facebook.com/helpinghand.altruistic" target="_blank"><img src="{% static 'Images/facebook.jpg' %}" width="50" height="50"></a> 
+        
+        <a style="padding-right:50px;" href="https://twitter.com/Helping17266863" target="_blank"><img src="{% static 'Images/twitter.jpg' %}" width="50" height="50"></a> 
+        
+        <a style="padding-right:50px;" href="mailto:conatct.helpinghand@gmail.com" target="_blank"><img src="{% static 'Images/mail.jpg' %}" width="50" height="50"></a> 
+        <hr>
+        <p>&copy copyright 2021</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.3/jquery.scrollTo.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js" ></script>
+<script src="{% static 'item_grid.js' %}"></script>
+<script src="{% static 'item_grid_history.js' %}"></script>
+ </body>
+ </html>

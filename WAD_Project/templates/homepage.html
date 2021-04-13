@@ -27,7 +27,7 @@
   color:white;
   background-color:grey;
 }
-}
+
 * {box-sizing: border-box}
 .mySlides {display: none}
 img {vertical-align: middle;}
@@ -38,60 +38,8 @@ img {vertical-align: middle;}
   margin: auto;
 }
 
-/* Next & previous buttons */
-.prev, .next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-}
-
-.prev{
-left:0;
-}
-
-/* Position the "next button" to the right */
-.next {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number text (1/5 ) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
 /* The dots/bullets/indicators */
 .dot {
-  cursor: pointer;
   height: 15px;
   width: 15px;
   margin: 0 2px;
@@ -101,7 +49,7 @@ left:0;
   transition: background-color 0.6s ease;
 }
 
-.dot:hover {
+.active {
   background-color: #717171;
 }
 
@@ -123,10 +71,7 @@ left:0;
   to {opacity: 1}
 }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
+
 
 
 
@@ -175,25 +120,26 @@ footer {
 
 
 <ul class="three">
-   {% if user.is_authenticated %}
-   
-   <li style="float: left !important; font-family:lucida handwriting;font-size:30px ;color : ;font-weight : bold"><center>Hello! {{user.first_name}}</center></li><br><br>
-   <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signout"><b>LOGOUT</b></a></li> 
-   {% else %}
-   <br><br>
-   <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signin"><b>LOGIN</b></a></li>
-   
-   {% endif %}
-
-    
-
-  <li class="two"><a class="one" href="information/" target="_blank"><b>HELP</b></a></li>
-  <li class="two"><a class="one" href="contactus/" target="_blank"><b>CONTACT</b></a></li>
-  <li class="two"><a class="one" href=""><b>HOME</b></a></li>
+  <div style="margin-top: -30px !important;">
   <a  href="/"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="90" height="90"style="float: left !important ; "></a>
   <h2 style="float: left !important; font-family:cursive;font-size:30px ">HELPING HAND</h2>
   
-
+  </div>
+  <div style="margin-top: 30px !important;">
+  {% if user.is_authenticated %}
+  <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signout"><b>LOGOUT</b></a></li>
+  <li class="two"><a class="one" href="history/" target="_blank"><b>HISTORY</b></a></li>
+  <li class="two"><a class="one" href="contactus/" target="_blank"><b>CONTACT</b></a></li>
+  <li class="two"><a class="one" href=""><b>HOME</b></a></li>
+  <li class="two" style="font-family:lucida handwriting;font-size:30px ;color:cadetblue;text-align:center !important ;"><span style="margin-right: 100px;"><b>Hello!  {{user.first_name}}</b></span></li>
+  
+  {% else %}
+  <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signin"><b>LOGIN</b></a></li>
+  <li class="two"><a class="one" href="information/" target="_blank"><b>HELP</b></a></li>
+  <li class="two"><a class="one" href="contactus/" target="_blank"><b>CONTACT</b></a></li>
+  <li class="two"><a class="one" href=""><b>HOME</b></a></li>
+  {% endif %}
+  </div>
 
 </ul>
 
@@ -220,53 +166,38 @@ footer {
   <img src="{% static 'Images/quote5.jpg' %}" width="1500" height="500">
 </div>
 
-<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-<a class="next" onclick="plusSlides(1)">&#10095;</a>
-
 </div>
 <br>
 
 <div style="text-align:center">
-  <span class="dot" onclick="currentSlide(1)"></span> 
-  <span class="dot" onclick="currentSlide(2)"></span> 
-  <span class="dot" onclick="currentSlide(3)"></span> 
-  <span class="dot" onclick="currentSlide(4)"></span> 
-  <span class="dot" onclick="currentSlide(5)"></span>  
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span>  
 </div>
 
 <script>
-var slideIndex = 1;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
+  var slideIndex = 0;
+  showSlides();
+  
+  function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";  
-  }
-  for (i = 0; i < dots.length; i++) {
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active";
+    setTimeout(showSlides, 2000); // Change image every 2 seconds
   }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
-}
-
-
-
-
-
-</script>
+  </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g==" crossorigin="anonymous"></script>
 <script>
@@ -299,8 +230,8 @@ wow.init();
 </div>
 <br>
 <div class="wow animate__pulse animate__infinite">
-<a style="padding:0 20px;margin-right:100px " target="_blank" id="five" href="donation"><p><b>DONATE</b></p></a>
-<a style="padding:0 20px;margin-left:100px" target="_blank" id="five" href="receive"><p><b>RECEIVE</b></p></a>
+<a style="padding:0 20px;margin-right:100px " target="_blank" id="five" href="/donation/"><p><b>DONATE</b></p></a>
+<a style="padding:0 20px;margin-left:100px" target="_blank" id="five" href="/receive/"><p><b>RECEIVE</b></p></a>
 </div>
 <br>
 <br>

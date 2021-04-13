@@ -38,6 +38,52 @@ footer {
   color: gray;
 }
 </style>
+
+<script>
+  var stateObject = {
+  "India": { "Delhi": ["New Delhi", "North West Delhi", "North Delhi", "West Delhi", "South West Delhi", "South Delhi", "South East Delhi", "Central Delhi", "North East Delhi", "Shahdara", "East Delhi"],
+  "Goa": ["North Goa", "South Goa"],
+  "TamilNadu":["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore",  "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem","Sivaganga","Tenkasi", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur","Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram"],
+  "Andhra pradesh": ["Anantapur" ,"Chittoor", "Kadapa", "Kurnool", "East Godavari", "West Godavari", "Krishna", "Guntur", "Prakasam", "Nellore", "Srikakulam", "Vizianagaram", "Vishakapatnam"],
+  "Kerala": ["Thiruvananthapuram", "Kollam", "Alappuzha", "Pathanamthitta", "Kottayam", "Idukki", "Ernakulam", "Thrissur", "Palakkad", "Malappuram", "Kozhikode", "Wayanad", "Kannur", "Kasaragod"],
+  "Karnataka": ["Bagalkot", "Bellary", "Belagavi (Belgaum)", "Bengaluru (Rural)", "Bangalore (Urban)", "Bidar", "Chamarajanagar", "Chikballapur", "Chikkamagaluru (Chikmagalur)", "Chitradurga", "Dakshina Kannada", "Davangere", "Dharwad", "Gadag", "Hassan","Haveri", "Kalaburagi (Gulbarga)", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysore", "Raichur", "Ramanagara", "Shivamogga (Shimoga)", "Tumakuru (Tumkur)", "Udupi", "Uttara", "Kannada (Karwar)", "Vijayapura (Bijapur)", "Yadgir"],
+  "Telangana": ["Adilabad", "Komaram Bheem", "Bhadradri", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar", "Jogulamba", "Kamareddy", "Karimnagar", "Khammam", "Mahabubabad", "Mahbubnagar", "Mancherial", "Medak", "Medchal–Malkajgiri", "Mulugu", "Nagarkurnool", "Nalgonda", "Narayanapet", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Ranga Reddy", "Sangareddy", "Siddipet", "Suryapet","Vikarabad","Wanaparthy", "Warangal (Rural)", "Warangal (Urban)", "Yadadri"],
+},
+  "Australia": {
+  "South Australia": ["Dunstan", "Mitchell"],
+  "Victoria": ["Altona", "Euroa"]
+  }, "Canada": {
+  "Alberta": ["Acadia", "Bighorn"],
+  "Columbia": ["Washington", ""]
+  },
+  }
+  window.onload = function () {
+  var countryselection = document.getElementById("countryselection"),
+  stateselection = document.getElementById("stateselection"),
+  districtselection = document.getElementById("districtselection");
+  for (var country in stateObject) {
+  countryselection.options[countryselection.options.length] = new Option(country, country);
+  }
+  countryselection.onchange = function () {
+  stateselection.length = 1; // remove all options bar first
+  districtselection.length = 1; // remove all options bar first
+  if (this.selectedIndex < 1) return; // done 
+  for (var state in stateObject[this.value]) {
+  stateselection.options[stateselection.options.length] = new Option(state, state);
+  }
+  }
+  countryselection.onchange(); // reset in case page is reloaded
+  stateselection.onchange = function () {
+  districtselection.length = 1; // remove all options bar first
+  if (this.selectedIndex < 1) return; // done 
+  var district = stateObject[countryselection.value][this.value];
+  for (var i = 0; i < district.length; i++) {
+  districtselection.options[districtselection.options.length] = new Option(district[i], district[i]);
+  }
+  }
+  }
+  </script>
+
 </head>
 
 <body>
@@ -45,11 +91,20 @@ footer {
 {% if user.is_authenticated %}
 
 <ul class="three">
+
+  <div style="margin-top: -30px !important;">
+  <a  href="/"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="90" height="90"style="float: left !important ; "></a>
+  <h2 style="float: left !important; font-family:cursive;font-size:30px ">HELPING HAND</h2>
+  </div>
+
+  <div style="margin-top: 30px !important;">
+  <li class="two"><a style="background-color:skyblue;" class="one" href="{% url 'signout' %}"><b>LOGOUT</b></a></li>
   <li class="two"><a class="one" href="/information/"><b>HELP</b></a></li>
   <li class="two"><a class="one" href="/contactus/"><b>CONTACT</b></a></li>
   <li class="two"><a class="one" href="/"><b>HOME</b></a></li>
-  <a  href="/"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="90" height="90"style="float: left !important ; "></a>
-  <h2 style="float: left !important; font-family:cursive;font-size:30px ">HELPING HAND</h2>
+  </div>
+
+  
   
 
 
@@ -62,48 +117,43 @@ footer {
 
 <form action="" enctype="multipart/form-data" method="POST" style="display: {{form_display}};">
   {% csrf_token %}
-<br><br>
- <label for="district">Choose your District :  </label>
-  <select name="district" id="district">
-    <option value="Anantapur">Anantapur</option>
-    <option value="Kadapa">Kadapa</option>
-    <option value="Krishna">Krishna</option>
-    <option value="Chittoor">Chittoor</option>
-    <option value="Vizag">Vizag</option>
-    <option value="Kurnool">Kurnool</option>
-    <option value="Nellore">Nellore</option>
-    <option value="Guntur">Guntur</option>
-    <option value="Viziyanagaram">Viziyanagaram</option>
-    <option value="Prakasham">Prakasham</option>
-    <option value="East Godavari">East Godavari</option>
-    <option value="West Godavari">West Godavari</option>
-    <option value="Srikakulam">Srikakulam</option>
-  </select>
-
-  <br><br><br>
-
+  Select Country: <select name="country" id="countryselection" size="1">
+    <option value="" selected="selected">Select Country</option>
+    </select>
+    <br>
+    <br>
+    Select State: <select name="state" id="stateselection" size="1">
+    <option value="" selected="selected">Please select Country first</option>
+    </select>
+    <br>
+    <br>
+    Select District: <select name="district" id="districtselection" size="1">
+    <option value="" selected="selected">Please select State first</option>
+    </select><br><br>
+    
+  
   <label for="category">Select the Category :  </label>
-  <select name="category" id="category">
-  <option value="Books">Books</option>
-  <option value="Clothes">Clothes</option>
-  <option value="Household">Household</option>
-  <option value="Footwear">Footwear</option>
-  <option value="Food">Food</option>
-  <option value="Gadgets">Gadgets</option>
-  <option value="Sports items">Sports items</option>
-  <option value="Pets">Pets</option>
-  <option value="Furniture items">Furniture items</option>
-  </select>
-
+  <input list="categories" name="category" id="category">
+  <datalist id="categories">
+    <option value="Books">
+    <option value="Clothes">
+    <option value="Household">
+    <option value="Footwear">
+    <option value="Food">
+    <option value="Gadgets">
+    <option value="Sports items">
+    <option value="Pets">
+    <option value="Furniture items">
+    <option value="Others">  
+  </datalist>
   <br><br><br>
-
   <label for="image">Please Add the Photo :  </label>
   <input type="file" name="image" id="image" accept="image/*" >
 
   <br><br><br>
 
   <label for="description">Please give Description of the Item :  </label>
-  <input type="text" id="description" name="description" placeholder="About the Item">  <br><br>
+  <textarea style="vertical-align:top;" id="description" name="description" placeholder="About the Item" rows="4" cols="50"> </textarea> <br><br>
   <label for="contact">Contact details : </label>
   <input type="text" id="contact" name="contact" placeholder="mail / mobile">
   <br><br><br>
