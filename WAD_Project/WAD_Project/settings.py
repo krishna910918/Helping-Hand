@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'feedback_app',
     'homepage',
+    'chat_app.apps.ChatAppConfig',
 ]
 
 MIDDLEWARE = [

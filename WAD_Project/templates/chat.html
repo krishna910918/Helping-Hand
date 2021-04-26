@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+	<link rel="stylesheet" href="{% static 'chat_style.css' %}">
+	<style>
+	html,body {
+		margin: 0px;
+		height: 100%;
+		background: black;
+	}
+	.parent {
+		display: table;
+		height: 100%;
+		width: 100%;
+	}
+	.list_all {
+		height: 500px;
+		background: white;
+		display: table-cell;
+		overflow-x: hidden;
+		overflow-y: auto;
+		border: 1px solid black;
+		height: 100%;
+		width: 30%;
+		padding: 5px;
+	}
+	.conversation {
+		background: lime;
+		display: table-cell;
+		border: 1px solid black;
+		height: 100%;
+		width: 70%;
+		position: absolute;
+	}
+	.focused_messages{
+		position: relative;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+	#last-time {
+		float: right;
+		text-align: right;
+	}
+	#mini-message {
+		display: block;
+	}
+	.message_form {
+		position: absolute;
+		width: 70%;
+		bottom: 0;
+		right: 0;
+		border: 1px solid black;
+		margin-left: 0px;
+	}
+	.chat_header {	
+		top: 0;
+		right: 0;
+		left: 0;
+		display: block;
+		height: 5%;
+		background: red;
+		border: 1px solid red;	
+	}
+	#focused_messages_id {
+		background: yellow;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#input_id {
+		position: fixed;
+		height: 5%;
+		width: 100%;
+		background: black;
+		bottom: 0;
+	}
+	.message_form{
+		height: 100%;
+		width: 100%;
+	}
+	#input-message{
+		display: inline-block;
+		width: 50%;
+		position: absolute;
+		left:0;
+		bottom: 0;
+	}
+	#chat_input_id > * {
+		postion: fixed;
+		bottom: 0;
+		left:0;
+	}
+	#fixedbutton {
+		position: fixed;
+		bottom: 0px;
+	    right: 0px; 
+	}
+
+	</style>
+{% endblock %}
+
+{% block content %}
+{% comment %} Main content goes here {% endcomment %}
+	{% comment %} Left panel showing all chats overview {% endcomment %}
+	<div class="parent">
+		
+		<div class="list_all" id="left">
+			{% for data in mini_chat_data %}
+			<div id="mini-chat" onclick='focused_chat("{{data.name}}")'>
+				<text id="contact-name">{{data.name}}</text>
+				<time id="last-time">{{data.msg_time}}</time>
+				<text id="mini-message">{{data.msg}}</text>
+				<hr>
+			</div>
+			{% endfor %}
+		</div>
+		
+		{% comment %} right panel focusing on single chat at a time {% endcomment %}
+		<div class="conversation" id="right">
+			<div class="chat_header" id="chat-header-id">
+				{% comment %} displays at top current user we are chatting with {% endcomment %}
+				<h4 class="chatter_class" id="chatter-id"> {{ focused_name }} </h4>
+			</div>
+			<div class="focused_messages" id="focused_messages_id">
+				{% comment %} this is where all scrollable message is displayed {% endcomment %}
+				{% for each_msg in message %}
+					<h5>{{each_msg}}</h5>
+				{% endfor %}
+			</div>
+			
+			{% comment %} For user to type and send message, taken as form as of now,
+			might upgrade it to something like websocket {% endcomment %}
+			<div class="chat_input" id="chat_input_id">
+				<form class="message_form" method="POST" action="">
+				{% csrf_token %}
+					<input type="text" class="input-msg-class" id="input-message" name="message_field">
+					<button id="fixedbutton" onclick='add_to_field()'>Send</button>
+				</form>
+			</div>
+			
+		</div>
+	</div>
+
+	<script>
+		function focused_chat(username){
+			//alert(name);
+			var chatter = document.getElementById("chatter-id");
+			console.log(chatter);
+			chatter.innerHTML = username;
+			//TODO: change focused chat to be with specific user
+			//method1: change window location and get page for chat with `username`
+			//method2: use json data and load on screen chat with `username`
+			
+			//method1 is easy to implement
+			var host_url = window.location.host;
+			location.href = location.protocol + '//' +host_url +"/chat/"+ username;
+		}
+		function add_to_field(){
+			var chatter = document.getElementById("chatter-id");
+			var form = document.getElementsByClassName("message_form");
+			console.log(form);
+			form.appendChild(document.createTextNode("majid"));
+		}
+	</script>
+{% endblock %}
