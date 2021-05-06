@@ -7,13 +7,56 @@ from django.contrib.auth.models import User
 
 class get_chat():
     def with_user(request, username):
+        # returns a list of messages between request.user and user.username as list of dict
         to_user_id = User.objects.filter(username=username).get()
         from_user_id = request.user.id
-        # returns a list of messages between request.user and user.username
         messages = Message_Data.objects.filter(from_user__in=[from_user_id,to_user_id], to_user__in=[from_user_id, to_user_id])
-        print("type of to_user_id is ", type(to_user_id))
-        # messages = Message_Data.objects.filter(from_user__in=[1,2, 5], to_user__in=[1,2 ,5])
+        ret = list()
+        for each in messages:
+            ret.append({
+                "msg":each.msg,
+                "time":each.datetime_stamp,
+                "sent":each.from_user.pk==from_user_id
+            })
+        # return messages
+        return ret
+
+    def between_users(request, username):
+        # returns a list of messages between request.user and user.username
+        to_user_id = User.objects.filter(username=username).get()
+        from_user_id = request.user.id
+        messages = Message_Data.objects.filter(from_user__in=[from_user_id,to_user_id], to_user__in=[from_user_id, to_user_id])
         return messages
+
+        
+    def getAllMsgDict(username):
+        print("getAllMsg.username = ",username)
+        user = User.objects.filter(username=username).get()
+        sent = Message_Data.objects.filter(from_user=user)
+        recv = Message_Data.objects.filter(to_user=user)
+        ret = list()
+        for each in sent:
+            ret.append({
+                "msg":each.msg,
+                "time":each.datetime_stamp,
+                "sent":True
+            })
+        for each in recv:
+            ret.append({
+                "msg":each.msg,
+                "time":each.datetime_stamp,
+                "sent":False
+            })
+        # all = sent.union(recv)
+        # return list(all)
+        return ret
+    
+    def getAllMsg(username):
+        user = User.objects.filter(username=username).get()
+        sent = Message_Data.objects.filter(from_user=user)
+        recv = Message_Data.objects.filter(to_user=user)
+        all = sent.union(recv)
+        return list(all)
 
     def friend_id(all_messages):
         s = set()
@@ -21,7 +64,8 @@ class get_chat():
             s.add(each_msg.from_user.id)
             s.add(each_msg.to_user.id)
         return list(s)
-    def mini_chat(request, all_msg, friend_ids):
+
+    def mini_chat(request,all_msg, friend_ids):
         # Returns a list of dictionary
         # dictionary := name, msg_time, msg
         # required data : all messages between request user and his contacts
@@ -29,7 +73,7 @@ class get_chat():
         for each_id in friend_ids:
             d = dict()
             u = User.objects.filter(id=each_id).get()
-            messages = get_chat.with_user(request,u.username)
+            messages = get_chat.between_users(request,u.username)
             print("messages : ", messages)
             messages = messages.order_by('datetime_stamp')
             messages = list(messages)
@@ -38,26 +82,22 @@ class get_chat():
                 continue
             m = messages[-1]
             d["name"] = u.username
-            d["msg_time"] = m.datetime_stamp
+            d["msg_time"] = m.getTimeIST
             d["msg"] = m.msg
             print("min chat function d : ", d)
             ret.append(d)
         return ret
 
 
-        
+   
 
 # Create your views here.
 def chat(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect('signinviarec')
-        
-    # print("kwargs : ", kwargs)
+
     username = kwargs.get("un")
     with_user = User.objects.filter(username=username).get()
-    print("signed in user = ", request.user.username)
-    print("to_user =  " , with_user)
-
 
     # recreate mini-chat data form complete data
     d = {
@@ -66,17 +106,15 @@ def chat(request, *args, **kwargs):
         "focused_name": with_user,
     }
 
-    all_msg = get_chat.with_user(request, username)
+    conversation = get_chat.with_user(request, username)
+    all_msg = get_chat.getAllMsg(request.user.username)
+    # conversation.order_by('datetime_stamp')
+    conversation.sort(key=lambda x: x["time"])
+    d["message"] = list(conversation)
+
 
     friend_id = get_chat.friend_id(all_msg)
-
-    print("friend_id=",friend_id)
-
-    all_msg.order_by('datetime_stamp')
-
     d["mini_chat_data"] = get_chat.mini_chat(request, all_msg, friend_id)
-
-    d["message"] = list(all_msg)
     print("min chat data : ")
     pretty(d)
 
@@ -88,12 +126,37 @@ def chat(request, *args, **kwargs):
         msg.from_user = request.user
         msg.to_user = with_user
         msg.msg = request.POST["message_field"]
-        msg.save()
+        if valid(msg):
+            msg.save()
     
     return render(request,"chat.html",d)
 
 
+
+
+def chatAll(request):
+    if not request.user.is_authenticated:
+        return redirect('signinviarec')
+
+    # Create mini-chat data form complete data
+    d = {
+        "mini_chat_data":list(),
+        "message":list(),
+        "focused_name": None,
+    }
+
+    all_msg = get_chat.getAllMsg(request.user.username)
+    friend_id = get_chat.friend_id(all_msg)
+    d["mini_chat_data"] = get_chat.mini_chat(request, all_msg, friend_id)
+
+    return render(request,"chat.html",d)
+
+
 # utility functions
+def valid(msg):
+    if msg.msg == '':
+        return False
+
 def pretty(d, indent=0):
    for key, value in d.items():
       print('\t' * indent + str(key))

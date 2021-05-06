@@ -6,7 +6,7 @@
 	html,body {
 		margin: 0px;
 		height: 100%;
-		background: black;
+		background: #f0f0f0;
 	}
 	.parent {
 		display: table;
@@ -15,20 +15,21 @@
 	}
 	.list_all {
 		height: 500px;
-		background: white;
+		background: #ebe7e6;
 		display: table-cell;
 		overflow-x: hidden;
 		overflow-y: auto;
-		border: 1px solid black;
+		border: 1px #d0cfcf;
 		height: 100%;
 		width: 30%;
-		padding: 5px;
+		padding: 5px 0px 5px 5px;
+		border-right: 1px solid gray;
 	}
 	.conversation {
-		background: lime;
+		background: #f0f0f0;
 		display: table-cell;
-		border: 1px solid black;
-		height: 100%;
+		border: 1px #d0cfcf;
+		height: 90%;
 		width: 70%;
 		position: absolute;
 	}
@@ -36,6 +37,11 @@
 		position: relative;
 		overflow-x: hidden;
 		overflow-y: auto;
+		width: 100%;
+		background: white;
+		height: 100%;
+		margin-bottom: 40px;
+		border-bottom: 1px solid #d0cfcf;
 	}
 	#last-time {
 		float: right;
@@ -46,44 +52,34 @@
 	}
 	.message_form {
 		position: absolute;
-		width: 70%;
+		width: 0;
 		bottom: 0;
 		right: 0;
 		border: 1px solid black;
 		margin-left: 0px;
 	}
-	.chat_header {	
-		top: 0;
-		right: 0;
-		left: 0;
+	.chat_header {
 		display: block;
 		height: 5%;
-		background: red;
-		border: 1px solid red;	
-	}
-	#focused_messages_id {
-		background: yellow;
-		height: 100%;
+		background: lightblue;
+		float: right;
 		width: 100%;
-		margin: 0;
-		padding: 0;
+		text-align: center;
+		border-bottom: 1px solid gray;
 	}
+
 	#input_id {
 		position: fixed;
 		height: 5%;
 		width: 100%;
-		background: black;
 		bottom: 0;
 	}
 	.message_form{
-		height: 100%;
-		width: 100%;
 	}
 	#input-message{
-		display: inline-block;
 		width: 50%;
-		position: absolute;
-		left:0;
+		position: fixed;
+		left:30%;
 		bottom: 0;
 	}
 	#chat_input_id > * {
@@ -96,7 +92,38 @@
 		bottom: 0px;
 	    right: 0px; 
 	}
-
+	#mini-chat {
+		padding: 10px;
+		border-bottom: 1px solid black;
+	}
+	#mini-chat:hover{
+		border: solid 1px #CCC;
+		-moz-box-shadow: 1px 1px 5px #999;
+		-webkit-box-shadow: 1px 1px 5px #999;
+			box-shadow: 1px 1px 5px #999;
+	}
+	.chat_msg {		
+		padding: 10px;
+		margin: 2px;
+		border-radius: 10px;
+	}
+	#chat-msg-sent {
+		float: right;
+		clear: right;
+		color: white;
+		background: #2491fa;
+		position: relative;
+	}
+	#chat-msg-recv {
+		float: left;
+		clear: left;
+		color: black;
+		background: #e6e5eb;
+	}
+	.spacing {
+		display: flex;
+		width: 100%;
+	}
 	</style>
 {% endblock %}
 
@@ -108,34 +135,38 @@
 		<div class="list_all" id="left">
 			{% for data in mini_chat_data %}
 			<div id="mini-chat" onclick='focused_chat("{{data.name}}")'>
-				<text id="contact-name">{{data.name}}</text>
-				<time id="last-time">{{data.msg_time}}</time>
-				<text id="mini-message">{{data.msg}}</text>
-				<hr>
+				<text id="contact-name" class="contact_name" style="font:'Arial'; size:17pt; font-weight: 600;">{{data.name}}</text>
+				<time id="last-time" style="color:#4c4c4e;">{{data.msg_time}}</time> 
+				<text id="mini-message" style="color:#4c4c4e">{{data.msg|truncatechars:32}}</text>
 			</div>
 			{% endfor %}
 		</div>
 		
 		{% comment %} right panel focusing on single chat at a time {% endcomment %}
 		<div class="conversation" id="right">
-			<div class="chat_header" id="chat-header-id">
+			<div class="chat_header" id="chat-header-id" style="font-size:17pt ; font-weight: 600;">
 				{% comment %} displays at top current user we are chatting with {% endcomment %}
-				<h4 class="chatter_class" id="chatter-id"> {{ focused_name }} </h4>
+				{{ focused_name }}
 			</div>
 			<div class="focused_messages" id="focused_messages_id">
 				{% comment %} this is where all scrollable message is displayed {% endcomment %}
 				{% for each_msg in message %}
-					<h5>{{each_msg}}</h5>
+				<div class="spacing"></div>
+					{% if each_msg.sent %}
+						<span id='chat-msg-sent' class='chat_msg'>{{ each_msg.msg }}</span>
+					{% else %}
+						<span id='chat-msg-recv' class='chat_msg'>{{ each_msg.msg }}</span>
+					{% endif %}
 				{% endfor %}
 			</div>
 			
 			{% comment %} For user to type and send message, taken as form as of now,
-			might upgrade it to something like websocket {% endcomment %}
+			might upgrade it to something like websocket later{% endcomment %}
 			<div class="chat_input" id="chat_input_id">
 				<form class="message_form" method="POST" action="">
 				{% csrf_token %}
-					<input type="text" class="input-msg-class" id="input-message" name="message_field">
-					<button id="fixedbutton" onclick='add_to_field()'>Send</button>
+					<input type="text" placeholder="Type your message here..." class="input-msg-class" id="input-message" name="message_field">
+					<button id="fixedbutton" onclick='refresh()'>Send</button>
 				</form>
 			</div>
 			
@@ -145,7 +176,7 @@
 	<script>
 		function focused_chat(username){
 			//alert(name);
-			var chatter = document.getElementById("chatter-id");
+			var chatter = document.getElementById("chat-header-id");
 			console.log(chatter);
 			chatter.innerHTML = username;
 			//TODO: change focused chat to be with specific user
@@ -156,11 +187,42 @@
 			var host_url = window.location.host;
 			location.href = location.protocol + '//' +host_url +"/chat/"+ username;
 		}
-		function add_to_field(){
-			var chatter = document.getElementById("chatter-id");
-			var form = document.getElementsByClassName("message_form");
-			console.log(form);
-			form.appendChild(document.createTextNode("majid"));
+		function validate(){
+			var msg = document.getElementById("input-msg");
+			if(msg==null) return false;
+			return true;
+		}
+		function refresh() {    
+			var val = validate();
+			if(val==false) {
+				alert("Message can't be empy!");
+				return false;
+			}
+			setTimeout(function () {
+				location.reload()
+			}, 100);
+
+			return true;
+		}
+		window.onload = () =>{
+			header = document.getElementById("chat-header-id");
+			console.log(header.innerText);
+			{% comment %} Heighlight focused chat {% endcomment %}
+			mini_class = document.getElementsByClassName("contact_name");
+			for(var i=0;i<mini_class.length;i+=1){
+				console.log(mini_class[i].innerHTML);
+				if(mini_class[i].innerHTML==header.innerText){
+					nodes = mini_class[i].parentElement.childNodes;
+					for(var j=1;j<nodes.length;j+=1){
+						nodes[j].style = "color: white";
+					}
+					nodes[0].style = "font-size:17pt ; font-weight: 600;";
+					mini_class[i].parentElement.style = "background: #1a6fe6; color: white;";
+				}
+				console.log(i);
+			}
+			msgs = document.getElementById("focused_messages_id");
+			msgs.scroll(0,msgs.scrollHeight);
 		}
 	</script>
 {% endblock %}
