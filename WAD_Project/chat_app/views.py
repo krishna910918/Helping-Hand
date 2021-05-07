@@ -96,8 +96,19 @@ def chat(request, *args, **kwargs):
     if not request.user.is_authenticated:
         return redirect('signinviarec')
 
+
     username = kwargs.get("un")
     with_user = User.objects.filter(username=username).get()
+
+    if request.method=="POST":
+        print("\n\ngot a POST, values : ",request.POST["message_field"],"\n\n")
+        current_user = request.user
+        print(current_user.id,current_user)
+        msg = Message_Data()
+        msg.from_user = request.user
+        msg.to_user = with_user
+        msg.msg = request.POST["message_field"]
+        msg.save()
 
     # recreate mini-chat data form complete data
     d = {
@@ -117,17 +128,6 @@ def chat(request, *args, **kwargs):
     d["mini_chat_data"] = get_chat.mini_chat(request, all_msg, friend_id)
     print("min chat data : ")
     pretty(d)
-
-    if request.method=="POST":
-        print("\n\n\got a POST, values : ",request.POST["message_field"],"\n\n")
-        current_user = request.user
-        print(current_user.id,current_user)
-        msg = Message_Data()
-        msg.from_user = request.user
-        msg.to_user = with_user
-        msg.msg = request.POST["message_field"]
-        if valid(msg):
-            msg.save()
     
     return render(request,"chat.html",d)
 
@@ -153,10 +153,6 @@ def chatAll(request):
 
 
 # utility functions
-def valid(msg):
-    if msg.msg == '':
-        return False
-
 def pretty(d, indent=0):
    for key, value in d.items():
       print('\t' * indent + str(key))
