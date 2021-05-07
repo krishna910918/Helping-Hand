@@ -165,7 +165,7 @@
 			<div class="chat_input" id="chat_input_id">
 				<form class="message_form" method="POST" action="">
 				{% csrf_token %}
-					<input type="text" placeholder="Type your message here..." class="input-msg-class" id="input-message" name="message_field">
+					<input type="text" placeholder="Type your message here..." class="input-msg-class" id="input-message" name="message_field" required>
 					<button id="fixedbutton" onclick='refresh()'>Send</button>
 				</form>
 			</div>
@@ -187,20 +187,10 @@
 			var host_url = window.location.host;
 			location.href = location.protocol + '//' +host_url +"/chat/"+ username;
 		}
-		function validate(){
-			var msg = document.getElementById("input-msg");
-			if(msg==null) return false;
-			return true;
-		}
 		function refresh() {    
-			var val = validate();
-			if(val==false) {
-				alert("Message can't be empy!");
-				return false;
-			}
 			setTimeout(function () {
 				location.reload()
-			}, 100);
+			}, 60000);
 
 			return true;
 		}
