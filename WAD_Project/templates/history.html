@@ -149,6 +149,7 @@ footer {
     <li class="two"><a class="one" href="/"><b>HOME</b></a></li>
     </div>
     </ul>
+    
 <h1>Your Contribution towards <cite>Helping Hand : </cite></h1>
     <div class="destinations" id="destinations">
 			<div class="container">
@@ -162,7 +163,7 @@ footer {
 							{% for obj in donation_obj %}
 							<div class="destination item">
 								<div class="destination_image">
-									<img src="/pics/{{obj.img}}" alt="">
+									<img src="/pics/{{obj.img}}" alt="" height="350" width="350">
 								</div>
 								<div class="destination_content">
 									<div class="destination_title"><b>Category </b>: {{obj.category}}</div>
@@ -183,6 +184,40 @@ footer {
 		</div>
     
     <hr>
+    <h1>Claimed Items from <cite>Helping Hand : </cite></h1>
+    <div class="destinations" id="destinations">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center"></div>
+				</div>
+				<div class="row destinations_row">
+					<div class="col">
+						<div class="destinations_container item_grid_history">
+
+							{% for obj in claimed_obj %}
+							<div class="destination item">
+								<div class="destination_image">
+									<img src="/pics/{{obj.img}}" alt="" height="350" width="350">
+								</div>
+								<div class="destination_content">
+								<div class="destination_title"><b>Donated by</b>: {{obj.donor_name}}</div>
+									<div class="destination_subtitle">
+										<p><b>Description </b>: {{obj.desc}}<br>
+								  	<b>Contact </b>: {{obj.cont}}<p>
+                  </div>
+								</div>
+              </div>
+
+							{% endfor %}
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+    <hr>    
 <h1>Received Items from <cite>Helping Hand : </cite></h1>
     <div class="destinations" id="destinations">
 			<div class="container">
@@ -193,10 +228,10 @@ footer {
 					<div class="col">
 						<div class="destinations_container item_grid_history">
 
-							{% for obj in receive_obj %}
+							{% for obj in collected_obj %}
 							<div class="destination item">
 								<div class="destination_image">
-									<img src="/pics/{{obj.img}}" alt="">
+									<img src="/pics/{{obj.img}}" alt="" height="350" width="350">
 								</div>
 								<div class="destination_content">
 								<div class="destination_title"><b>Donated by</b>: {{obj.donor_name}}</div>
@@ -223,7 +258,6 @@ footer {
     {% endif %}
 
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-
     <footer>
         <a style="padding-right:50px;" href="https://www.instagram.com/altruistichelpinghand/" target="_blank"><img src="{% static 'Images/instagram.jpg' %}" width="50" height="50"></a> 
         

@@ -104,6 +104,79 @@ footer {
   background-color: black;
   color:grey;
 }
+
+#form_id {
+  display: none;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color:white;
+}
+
+.modal-body {padding: 2px 16px;background-color: whitesmoke;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color:grey;
+}
+
 </style>
 
 
@@ -114,7 +187,7 @@ footer {
   <h1>{{m}}</h1>
 
 {% endif %}
- <meta http-equiv="Refresh" content="10;url="homepage.html">  
+ <meta http-equiv="Refresh" content="10";url="homepage.html">  
 
 <body>
 
@@ -130,7 +203,7 @@ footer {
   <li class="two"><a style="background-color:skyblue;" class="one" href="accounts/signout"><b>LOGOUT</b></a></li>
   <li class="two"><a class="one" href="history/" target="_blank"><b>HISTORY</b></a></li>
   <li class="two"><a class="one" href="contactus/" target="_blank"><b>CONTACT</b></a></li>
-  <li class="two"><a class="one" href=""><b>HOME</b></a></li>
+  <li class="two"><a class="one" href="/chat/"><b>CHAT</b></a></li>
   <li class="two" style="font-family:lucida handwriting;font-size:30px ;color:cadetblue;text-align:center !important ;"><span style="margin-right: 100px;"><b>Hello!  {{user.first_name}}</b></span></li>
   
   {% else %}
@@ -268,6 +341,66 @@ wow.init();
 
 </center>
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 style="color:cadetblue"><img src="{% static 'Images/logo.jpeg' %}" alt="" width="50" height="50" >HELPING Hand</h2>
+      <span class="close">&times;</span>
+    </div>
+    <div class="modal-body">
+      {% for obj in claimed_obj %}
+      <p>Did U Collect {{obj.category}}</p>
+      <img src="/pics/{{obj.img}}" height="100px" width="100px">
+      <button onclick="collected_item(this.id)" id="{{obj.id}}">Collected</button>
+      {% endfor %}
+    </div>
+    <div class="modal-footer">
+      <p style="color:whitesmoke ;text-align:center">Please Give Correct Info.</p>
+    </div>
+  </div>
+
+</div>
+
+<form method="POST" id="form_id"> 
+  {% csrf_token %}
+  <label for="ID"></label>
+  <input type="text" name="ID" id="ID">
+</form>
+
+<script>
+function collected_item(id){
+  document.getElementById('ID').value=id;
+  document.getElementById('form_id').submit();
+
+}
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+{% if is_there_obj %}
+
+modal.style.display = "block";
+
+{% endif %}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+  
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    }
+  }
+  </script>
+  
 
 </body>
 </html>
